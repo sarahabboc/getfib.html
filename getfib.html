@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Sequence API</title>
+</head>
+<body>
+    <h1>Fibonacci Sequence Generator</h1>
+    
+    <label for="numTerms">Enter the number of terms:</label>
+    <input type="number" id="numTerms" min="1" placeholder="e.g., 10">
+    <button onclick="getFibonacci()">Get Fibonacci Sequence</button>
+    
+    <h2>Result:</h2>
+    <pre id="result"></pre>
+
+    <script>
+        function getFibonacci() {
+            // Get the number of terms from the input field
+            const numTerms = document.getElementById('numTerms').value;
+            
+            // Check if input is valid
+            if (numTerms < 1) {
+                document.getElementById('result').textContent = 'Please enter a positive integer greater than zero.';
+                return;
+            }
+            
+            // Corrected URL for the API call
+            const url = `http://saraha.sgedu.site/fibapi.php?number=${numTerms}`;
+            
+            // Fetch data from the API
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the result
+                    if (data.error) {
+                        document.getElementById('result').textContent = data.error;
+                    } else {
+                        document.getElementById('result').textContent = data.data.join(', ');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching Fibonacci sequence:', error);
+                    document.getElementById('result').textContent = 'An error occurred. Please try again later.';
+                });
+        }
+    </script>
+</body>
+</html>
